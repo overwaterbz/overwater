@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
+/* ─── Overwater.com — Ocean-Inspired Soulful Theme ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1628;
+  --foreground: #e8edf4;
+  --ocean-deep: #0b1628;
+  --ocean-mid: #132742;
+  --ocean-surface: #1a3a5c;
+  --lagoon: #0ea5e9;
+  --reef-teal: #14b8a6;
+  --maya-gold: #d4a853;
+  --maya-warm: #c9893a;
+  --sand: #e8dcc8;
+  --coral: #f97316;
+  --glass-white: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+.light {
+  --background: #f8fafb;
+  --foreground: #0f172a;
+  --ocean-deep: #f0f7ff;
+  --ocean-mid: #e0f0ff;
+  --ocean-surface: #bfdbfe;
+  --glass-white: rgba(0, 0, 0, 0.04);
+  --glass-border: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ocean-deep: var(--ocean-deep);
+  --color-ocean-mid: var(--ocean-mid);
+  --color-ocean-surface: var(--ocean-surface);
+  --color-lagoon: var(--lagoon);
+  --color-reef: var(--reef-teal);
+  --color-maya: var(--maya-gold);
+  --color-maya-warm: var(--maya-warm);
+  --color-sand: var(--sand);
+  --color-coral: var(--coral);
+  --color-glass: var(--glass-white);
+  --color-glass-border: var(--glass-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-playfair);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+/* ─── Glass card effect ─── */
+.glass-card {
+  background: var(--glass-white);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+}
+
+/* ─── Ocean gradient backgrounds ─── */
+.ocean-gradient {
+  background: linear-gradient(180deg, var(--ocean-deep) 0%, var(--ocean-mid) 50%, var(--ocean-surface) 100%);
+}
+
+.maya-glow {
+  box-shadow: 0 0 40px rgba(212, 168, 83, 0.15), 0 0 80px rgba(212, 168, 83, 0.05);
+}
+
+/* ─── Smooth scroll ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Selection highlight ─── */
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+  color: var(--foreground);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--ocean-deep); }
+::-webkit-scrollbar-thumb { background: var(--ocean-surface); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--lagoon); }
