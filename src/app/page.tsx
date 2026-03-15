@@ -17,6 +17,9 @@ import {
   Wind,
   Leaf,
   Globe,
+  Home,
+  KeyRound,
+  Building2,
 } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 import { ComparisonTable } from "@/components/ComparisonTable";
@@ -310,7 +313,7 @@ export default function HomePage() {
           </FadeIn>
 
           {/* Ecosystem Portal Cards */}
-          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <FadeIn delay={0.1}>
               <div className="glass-card-elevated maya-border p-6 text-center group">
                 <div className="w-14 h-14 rounded-full bg-maya/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-maya/20 transition-colors">
@@ -369,6 +372,74 @@ export default function HomePage() {
                 </p>
                 <span className="text-xs text-foreground/30 group-hover:text-lagoon transition-colors">
                   Book a Stay ↗
+                </span>
+              </a>
+            </FadeIn>
+
+            <FadeIn delay={0.4}>
+              <a
+                href="https://kylapoint.com?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
+              >
+                <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500/20 transition-colors">
+                  <Home className="h-7 w-7 text-emerald-400" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-emerald-400 mb-2">
+                  Kyla Point
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  Soulful mainland living — homes, lots &amp; resort amenities
+                  in Belize.
+                </p>
+                <span className="text-xs text-foreground/30 group-hover:text-emerald-400 transition-colors">
+                  Explore ↗
+                </span>
+              </a>
+            </FadeIn>
+
+            <FadeIn delay={0.5}>
+              <a
+                href="https://pointrealtor.com?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
+              >
+                <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-500/20 transition-colors">
+                  <KeyRound className="h-7 w-7 text-amber-400" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-amber-400 mb-2">
+                  Point Realtor
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  Licensed brokerage — Caribbean &amp; Florida real estate
+                  sales.
+                </p>
+                <span className="text-xs text-foreground/30 group-hover:text-amber-400 transition-colors">
+                  Browse Listings ↗
+                </span>
+              </a>
+            </FadeIn>
+
+            <FadeIn delay={0.6}>
+              <a
+                href="https://pointenterprise.com?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
+              >
+                <div className="w-14 h-14 rounded-full bg-maya/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-maya/20 transition-colors">
+                  <Building2 className="h-7 w-7 text-maya" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-maya mb-2">
+                  Point Enterprise
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  The family behind the magic — 20+ years of soulful companies.
+                </p>
+                <span className="text-xs text-foreground/30 group-hover:text-maya transition-colors">
+                  Learn More ↗
                 </span>
               </a>
             </FadeIn>

@@ -68,6 +68,10 @@ export function Footer() {
                   href: "https://pointrealtor.com?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem",
                   label: "Point Realtor",
                 },
+                {
+                  href: "https://pointenterprise.com?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem",
+                  label: "Point Enterprise",
+                },
               ].map((link) => (
                 <li key={link.href}>
                   <a
