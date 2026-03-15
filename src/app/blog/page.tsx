@@ -5,6 +5,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import Image from "next/image";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -57,11 +58,13 @@ export default async function BlogPage() {
                 className="group block bg-[#1a1a2e] border border-[#c9a55a1a] rounded-xl overflow-hidden hover:border-[#c9a55a44] transition"
               >
                 {post.cover_image && (
-                  <div className="aspect-video bg-[#0d0d20] overflow-hidden">
-                    <img
+                  <div className="aspect-video bg-[#0d0d20] overflow-hidden relative">
+                    <Image
                       src={post.cover_image}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
                 )}

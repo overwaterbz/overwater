@@ -7,6 +7,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,6 +15,18 @@ const supabase = createClient(
 );
 
 export const revalidate = 3600;
+
+/** Strip dangerous tags/attributes from blog HTML to prevent XSS */
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "")
+    .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, "")
+    .replace(/<embed\b[^>]*\/?>/gi, "")
+    .replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, "")
+    .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, "")
+    .replace(/javascript\s*:/gi, "");
+}
 
 interface BlogPost {
   id: string;
@@ -88,12 +101,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {/* Cover Image */}
         {p.cover_image && (
-          <div className="aspect-video rounded-xl overflow-hidden mb-10">
-            <img src={p.cover_image} alt={p.title} className="w-full h-full object-cover" />
+          <div className="aspect-video rounded-xl overflow-hidden mb-10 relative">
+            <Image src={p.cover_image} alt={p.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 768px" priority />
           </div>
         )}
 
-        {/* Content */}
+        {/* Content — sanitized to prevent XSS */}
         <div
           className="prose prose-invert prose-amber max-w-none
             prose-headings:text-[#c9a55a]
@@ -101,7 +114,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             prose-a:text-[#c9a55a] prose-a:no-underline hover:prose-a:underline
             prose-strong:text-[#e8e0d0]
             prose-li:text-[#c8c0b0]"
-          dangerouslySetInnerHTML={{ __html: p.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(p.content) }}
         />
 
         {/* Tags */}

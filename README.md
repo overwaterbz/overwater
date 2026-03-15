@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Overwater.com
+
+Fractional ownership of luxury glass-floor overwater cabanas — starting with Lina Point Resort in Belize and expanding worldwide.
+
+**Live:** [overwater.com](https://overwater.com)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router) + React 19
+- **Styling:** Tailwind CSS 4 + Framer Motion
+- **Backend:** Supabase (Auth, DB, Analytics)
+- **AI:** Grok (xAI) — AI Concierge chat
+- **State:** Zustand
+- **Deploy:** Vercel
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install
+npm install
+
+# Dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build
+npm run build
+
+# Tests
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` to `.env.local` and fill in values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env.local
+```
 
-## Learn More
+Required: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GROK_API_KEY`
 
-To learn more about Next.js, take a look at the following resources:
+See [.env.example](.env.example) for all variables.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/                  # Next.js App Router pages
+│   ├── api/              # API routes (contact, newsletter, concierge, marketing)
+│   ├── blog/             # Blog with dynamic [slug] routes
+│   ├── own/              # Fractional ownership listings
+│   ├── quiz/             # Soulful Escape quiz
+│   ├── blueprint/        # Escape Blueprint results
+│   ├── vision/           # Vision & story
+│   └── contact/          # Contact form
+├── components/           # Reusable UI components
+│   ├── AIConcierge.tsx   # AI chat widget (dynamic import)
+│   ├── Header.tsx        # Site navigation
+│   ├── Footer.tsx        # Site footer
+│   └── ...
+└── lib/                  # Utilities & clients
+    ├── supabase.ts       # Browser Supabase client
+    ├── supabase-server.ts # Server Supabase client
+    ├── data.ts           # Listing & comparison data
+    └── analytics.ts      # Event tracking
+```
 
-## Deploy on Vercel
+## Database Migrations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Run in Supabase SQL Editor:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `contact-migration.sql` — Contact inquiries table
+
+## Part of the Overwater Ecosystem
+
+- **[Lina Point](https://lina-point.vercel.app)** — Resort website (lina-point-nextjs)
+- **[The Magic is You](https://magic.overwater.com)** — Maya Cosmic Blueprint (magic-is-you)
+- **[Overwater.com](https://overwater.com)** — Fractional ownership platform (this repo)

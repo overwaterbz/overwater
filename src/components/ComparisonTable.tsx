@@ -10,11 +10,11 @@ export function ComparisonTable() {
       <table className="w-full text-left">
         <thead>
           <tr className="border-b border-glass-border">
-            <th className="py-4 pr-4 text-sm font-medium text-foreground/50 w-1/3">Feature</th>
-            <th className="py-4 px-4 text-sm font-medium text-red-400/80 w-1/3">
+            <th scope="col" className="py-4 pr-4 text-sm font-medium text-foreground/50 w-1/3">Feature</th>
+            <th scope="col" className="py-4 px-4 text-sm font-medium text-red-400/80 w-1/3">
               🏜️ Dirt Lot Scheme
             </th>
-            <th className="py-4 pl-4 text-sm font-medium text-lagoon w-1/3">
+            <th scope="col" className="py-4 pl-4 text-sm font-medium text-lagoon w-1/3">
               🌊 Overwater Magic Share
             </th>
           </tr>

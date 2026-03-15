@@ -117,7 +117,7 @@ export function AIConcierge() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[200px]">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[200px]" role="log" aria-live="polite" aria-label="Chat messages">
               {messages.map((msg, i) => (
                 <div
                   key={i}
@@ -171,12 +171,14 @@ export function AIConcierge() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about ownership, pricing..."
+                aria-label="Type your message"
                 className="flex-1 rounded-full bg-glass border border-glass-border px-4 py-2.5 text-sm focus:outline-none focus:border-lagoon/50 placeholder:text-foreground/30"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
                 className="w-10 h-10 rounded-full bg-maya text-ocean-deep flex items-center justify-center hover:bg-maya-warm transition-colors disabled:opacity-50"
+                aria-label="Send message"
               >
                 <Send className="h-4 w-4" />
               </button>

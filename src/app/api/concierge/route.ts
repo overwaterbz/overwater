@@ -6,6 +6,19 @@ interface Message {
   content: string;
 }
 
+const rateMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateMap.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  entry.count++;
+  return entry.count > 20;
+}
+
 const SYSTEM_PROMPT = `You are the AI Concierge for Overwater.com — the global Magic Portal for fractional overwater living.
 
 Your role: Answer questions about fractional overwater cabana ownership, pricing, the Soulful Escape Blueprint, and the expanding Overwater brand. Be warm, knowledgeable, and concise.
@@ -38,6 +51,11 @@ ECOSYSTEM — Overwater.com connects to a broader ecosystem:
 Keep responses under 150 words. Be friendly but professional.`;
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ reply: "Please slow down — try again in a moment." }, { status: 429 });
+  }
+
   const { messages } = (await req.json()) as { messages: Message[] };
 
   const grokKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY;
