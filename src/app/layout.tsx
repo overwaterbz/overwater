@@ -3,25 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import "@/lib/validateEnv";
-import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { UtmCapture } from "@/components/UtmCapture";
-
-const AIConcierge = dynamic(
-  () => import("@/components/AIConcierge").then((m) => m.AIConcierge),
-  { ssr: false },
-);
-const WhatsAppButton = dynamic(
-  () => import("@/components/WhatsAppButton").then((m) => m.WhatsAppButton),
-  { ssr: false },
-);
-const ExitIntentPopup = dynamic(
-  () => import("@/components/ExitIntentPopup").then((m) => m.ExitIntentPopup),
-  { ssr: false },
-);
+import { ClientProviders } from "@/components/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -145,9 +132,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <AIConcierge />
-        <WhatsAppButton />
-        <ExitIntentPopup />
+        <ClientProviders />
         <Analytics />
         <SpeedInsights />
       </body>

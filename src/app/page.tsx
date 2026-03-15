@@ -12,6 +12,11 @@ import {
   TrendingUp,
   Star,
   ChevronDown,
+  Droplets,
+  Flame,
+  Wind,
+  Leaf,
+  Globe,
 } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 import { ComparisonTable } from "@/components/ComparisonTable";
@@ -37,11 +42,11 @@ export default function HomePage() {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-        <motion.div
-          style={{ y: heroY }}
-          className="absolute inset-0"
-        >
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center overflow-hidden"
+      >
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image
             src="https://linapoint.com/wp-content/uploads/2022/08/drone-2-scaled.jpg"
             alt="Aerial view of Lina Point Resort overwater cabanas in Belize"
@@ -53,6 +58,30 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/70 via-ocean-deep/40 to-ocean-deep" />
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </motion.div>
+
+        {/* Water ripple effect */}
+        <div className="absolute bottom-1/4 left-1/3 pointer-events-none">
+          <div className="water-ripple" />
+          <div className="water-ripple" />
+          <div className="water-ripple" />
+        </div>
+
+        {/* Floating element icons */}
+        <div className="absolute top-1/4 right-12 pointer-events-none hidden lg:block">
+          <motion.div className="animate-float opacity-20" aria-hidden>
+            <Droplets className="h-8 w-8 text-lagoon" />
+          </motion.div>
+        </div>
+        <div className="absolute top-1/3 right-32 pointer-events-none hidden lg:block">
+          <motion.div className="animate-float-delayed opacity-15" aria-hidden>
+            <Wind className="h-6 w-6 text-reef" />
+          </motion.div>
+        </div>
+        <div className="absolute bottom-1/3 right-20 pointer-events-none hidden lg:block">
+          <motion.div className="animate-float-slow opacity-15" aria-hidden>
+            <Flame className="h-7 w-7 text-coral" />
+          </motion.div>
+        </div>
 
         <motion.div
           style={{ opacity: heroOpacity }}
@@ -79,8 +108,8 @@ export default function HomePage() {
               Tired of buying dirt{" "}
               <span className="text-foreground/40">you&apos;ll never use?</span>
               <br />
-              <span className="text-lagoon">Own real overwater living</span>{" "}
-              for the same monthly payment.
+              <span className="text-lagoon">Own real overwater living</span> for
+              the same monthly payment.
             </motion.h1>
 
             <motion.p
@@ -89,8 +118,9 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-lg text-foreground/60 leading-relaxed mb-8 max-w-2xl"
             >
-              Fractional ownership of luxury glass-floor overwater cabanas — starting at $458/month
-              with 0% interest. Real deed. Real income. Real paradise.
+              Fractional ownership of luxury glass-floor overwater cabanas —
+              starting at $458/month with 0% interest. Real deed. Real income.
+              Real paradise.
             </motion.p>
 
             <motion.div
@@ -140,7 +170,9 @@ export default function HomePage() {
               <FadeIn key={item.text} delay={i * 0.1}>
                 <div className="flex items-center gap-3">
                   <item.icon className="h-5 w-5 text-lagoon shrink-0" />
-                  <span className="text-sm text-foreground/60">{item.text}</span>
+                  <span className="text-sm text-foreground/60">
+                    {item.text}
+                  </span>
                 </div>
               </FadeIn>
             ))}
@@ -154,17 +186,19 @@ export default function HomePage() {
           <FadeIn>
             <div className="text-center mb-12">
               <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
-                Stop Buying Dirt. <span className="text-lagoon">Start Living Over Water.</span>
+                Stop Buying Dirt.{" "}
+                <span className="text-lagoon">Start Living Over Water.</span>
               </h2>
               <p className="text-foreground/50 max-w-2xl mx-auto">
-                Other Belize developers charge you $500–700/month for a dirt lot with zero infrastructure.
-                For the same payment, you own a share of a real overwater cabana — with income.
+                Other Belize developers charge you $500–700/month for a dirt lot
+                with zero infrastructure. For the same payment, you own a share
+                of a real overwater cabana — with income.
               </p>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <div className="glass-card p-6 sm:p-8">
+            <div className="glass-card-elevated p-6 sm:p-8">
               <ComparisonTable />
             </div>
           </FadeIn>
@@ -176,15 +210,34 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(212,168,83,0.1),transparent_70%)]" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <FadeIn>
-            <div className="glass-card maya-glow p-10 sm:p-16 text-center max-w-3xl mx-auto">
-              <Sparkles className="h-10 w-10 text-maya mx-auto mb-6" />
+            <div className="glass-card-elevated maya-border maya-glow p-10 sm:p-16 text-center max-w-3xl mx-auto">
+              <div className="relative">
+                <Sparkles className="h-10 w-10 text-maya mx-auto mb-6" />
+                <div
+                  className="sparkle-dot"
+                  style={{ top: -8, left: "45%", animationDelay: "0s" }}
+                />
+                <div
+                  className="sparkle-dot"
+                  style={{ top: -4, left: "55%", animationDelay: "1s" }}
+                />
+                <div
+                  className="sparkle-dot"
+                  style={{ top: 0, left: "50%", animationDelay: "2s" }}
+                />
+              </div>
               <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
-                Discover Your <span className="text-maya">Soulful Escape</span> Blueprint
+                Discover Your <span className="text-maya">Soulful Escape</span>{" "}
+                Blueprint
               </h2>
-              <p className="text-foreground/60 mb-8 max-w-xl mx-auto leading-relaxed">
-                Take our 60-second quiz to discover your element — Water, Fire, Wind, or Earth — and
-                receive a personalized Ownership Blueprint with your ideal cabana, monthly payment, and
-                projected returns.
+              <p className="text-foreground/60 mb-4 max-w-xl mx-auto leading-relaxed">
+                Take our 60-second quiz to discover your element — Water, Fire,
+                Wind, or Earth — and receive a personalized Ownership Blueprint
+                with your ideal cabana, monthly payment, and projected returns.
+              </p>
+              <p className="text-sm text-maya/70 italic mb-8 max-w-lg mx-auto font-[family-name:var(--font-display)]">
+                For curious souls and smart investors tired of empty land
+                schemes — this is your portal.
               </p>
               <Link
                 href="/quiz"
@@ -208,8 +261,8 @@ export default function HomePage() {
                 Featured <span className="text-lagoon">Magic Shares</span>
               </h2>
               <p className="text-foreground/50 max-w-2xl mx-auto">
-                Real overwater cabanas. Real fractional deeds. Real rental income. Choose your piece of
-                paradise.
+                Real overwater cabanas. Real fractional deeds. Real rental
+                income. Choose your piece of paradise.
               </p>
             </div>
           </FadeIn>
@@ -232,40 +285,94 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════ THE MAGIC IS YOU ═══════ */}
-      <section className="py-20 sm:py-28 border-t border-glass-border">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* ═══════ THE MAGIC IS YOU — ECOSYSTEM PORTAL ═══════ */}
+      <section className="py-20 sm:py-28 border-t border-glass-border relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.06),transparent_60%)]" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
           <FadeIn>
-            <div className="text-center max-w-2xl mx-auto">
-              <p className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold text-maya/90 italic mb-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <p className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl font-bold text-maya/90 italic mb-6">
                 &ldquo;The Magic is You&rdquo;
               </p>
-              <p className="text-foreground/50 leading-relaxed mb-8">
-                Overwater living isn&apos;t about the glass floor or the reef below.
-                It&apos;s about waking up to a life that reflects who you really are.
-                Your element. Your path. Your sanctuary — first over the Caribbean Sea,
-                and soon, over oceans and resort pools worldwide.
+              <p className="text-foreground/50 leading-relaxed mb-4 text-lg">
+                Overwater living isn&apos;t about the glass floor or the reef
+                below. It&apos;s about waking up to a life that reflects who you
+                really are.
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a
-                  href="https://magic-is-you.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-maya/30 px-6 py-2.5 text-sm font-medium text-maya hover:bg-maya/10 transition-colors"
-                >
-                  Explore Magic Is You ↗
-                </a>
-                <a
-                  href="https://lina-point.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-lagoon/30 px-6 py-2.5 text-sm font-medium text-lagoon hover:bg-lagoon/10 transition-colors"
-                >
-                  Book a Stay at Lina Point ↗
-                </a>
-              </div>
+              <p className="text-foreground/40 leading-relaxed">
+                For curious souls and smart investors tired of empty land
+                schemes — overwater.com is the Magic Portal to the Overwater
+                lifestyle. Own fractional shares in soul-grounded sanctuaries,
+                first over the Caribbean Sea, and soon, over oceans and resort
+                pools worldwide.
+              </p>
             </div>
           </FadeIn>
+
+          {/* Ecosystem Portal Cards */}
+          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <FadeIn delay={0.1}>
+              <div className="glass-card-elevated maya-border p-6 text-center group">
+                <div className="w-14 h-14 rounded-full bg-maya/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-maya/20 transition-colors">
+                  <Globe className="h-7 w-7 text-maya" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-maya mb-2">
+                  Overwater.com
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  The Magic Portal — fractional ownership of overwater
+                  sanctuaries worldwide.
+                </p>
+                <span className="text-xs text-lagoon">You are here</span>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <a
+                href="https://magic-is-you.vercel.app?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
+              >
+                <div className="w-14 h-14 rounded-full bg-[#7b2d8e]/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-[#7b2d8e]/20 transition-colors">
+                  <Sparkles className="h-7 w-7 text-[#d4a853]" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-[#d4a853] mb-2">
+                  The Magic is You
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  Your Maya Cosmic Blueprint — discover your Day Sign, Spirit
+                  Animal &amp; soul purpose.
+                </p>
+                <span className="text-xs text-foreground/30 group-hover:text-maya transition-colors">
+                  Explore ↗
+                </span>
+              </a>
+            </FadeIn>
+
+            <FadeIn delay={0.3}>
+              <a
+                href="https://lina-point.vercel.app?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
+              >
+                <div className="w-14 h-14 rounded-full bg-lagoon/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-lagoon/20 transition-colors">
+                  <Waves className="h-7 w-7 text-lagoon" />
+                </div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-lagoon mb-2">
+                  Lina Point Resort
+                </h3>
+                <p className="text-sm text-foreground/50 mb-4">
+                  The flagship — overwater cabanas, glass floors &amp; Caribbean
+                  luxury in Belize.
+                </p>
+                <span className="text-xs text-foreground/30 group-hover:text-lagoon transition-colors">
+                  Book a Stay ↗
+                </span>
+              </a>
+            </FadeIn>
+          </div>
         </div>
       </section>
     </>
