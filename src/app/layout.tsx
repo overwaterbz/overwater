@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { AIConcierge } from "@/components/AIConcierge";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { UtmCapture } from "@/components/UtmCapture";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,11 +52,20 @@ export const metadata: Metadata = {
     siteName: "Overwater.com",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://overwater.com/api/og",
+        width: 1200,
+        height: 630,
+        alt: "Overwater.com — Fractional Overwater Living",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Overwater.com — Own the Magic",
     description: "Fractional overwater cabana ownership starting at $458/mo — Belize flagship, expanding worldwide",
+    images: ["https://overwater.com/api/og"],
   },
 };
 
@@ -75,6 +85,7 @@ export default function RootLayout({
         <Footer />
         <AIConcierge />
         <WhatsAppButton />
+        <ExitIntentPopup />
       </body>
     </html>
   );

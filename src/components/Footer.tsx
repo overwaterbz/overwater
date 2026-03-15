@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Waves, Mail, Phone, MapPin } from "lucide-react";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 export function Footer() {
   return (
@@ -50,7 +51,7 @@ export function Footer() {
             <ul className="space-y-2">
               {[
                 { href: "https://linapoint.com?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem", label: "Lina Point Resort" },
-                { href: "https://magic-is-you.vercel.app?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem", label: "Magic Is You" },
+                { href: "https://magic.overwater.com?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem", label: "Magic Is You" },
               ].map((link) => (
                 <li key={link.href}>
                   <a
@@ -69,7 +70,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-sm font-semibold text-maya mb-4">Contact Rick</h4>
-            <ul className="space-y-3">
+            <ul className="space-y-3 mb-6">
               <li className="flex items-center gap-2 text-sm text-foreground/50">
                 <Mail className="h-4 w-4 text-lagoon" />
                 <a href="mailto:rick@linapoint.com" className="hover:text-lagoon transition-colors">
@@ -87,6 +88,9 @@ export function Footer() {
                 San Pedro, Ambergris Caye, Belize
               </li>
             </ul>
+            <h4 className="text-sm font-semibold text-maya mb-2">Newsletter</h4>
+            <p className="text-xs text-foreground/40 mb-2">Overwater living insights &amp; opportunities</p>
+            <NewsletterSignup />
           </div>
         </div>
 

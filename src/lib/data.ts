@@ -35,7 +35,7 @@ export const LISTINGS: Listing[] = [
     downPayment: 6250,
     netIncomeMin: 4375,
     netIncomeMax: 7125,
-    image: "/images/cabana-duplex.jpg",
+    image: "https://linapoint.com/wp-content/uploads/2022/08/anniversary_cabana-10-1-scaled.jpg",
     features: [
       "Glass bottom floor panels",
       "Private plunge pool",
@@ -61,7 +61,7 @@ export const LISTINGS: Listing[] = [
     downPayment: 2750,
     netIncomeMin: 1600,
     netIncomeMax: 2700,
-    image: "/images/cabana-1br.jpg",
+    image: "https://linapoint.com/wp-content/uploads/2022/08/anniversary_cabana-8-scaled.jpg",
     features: [
       "Glass bottom floor panels",
       "Private deck over water",
@@ -86,7 +86,7 @@ export const LISTINGS: Listing[] = [
     downPayment: 5000,
     netIncomeMin: 4500,
     netIncomeMax: 7500,
-    image: "/images/lot-new-build.jpg",
+    image: "https://linapoint.com/wp-content/uploads/2022/08/LinaPoint-55.jpg",
     features: [
       "Brand new construction",
       "Glass bottom floor throughout",
@@ -112,7 +112,7 @@ export const LISTINGS: Listing[] = [
     downPayment: 5000,
     netIncomeMin: 4500,
     netIncomeMax: 7500,
-    image: "/images/lot-new-build.jpg",
+    image: "https://linapoint.com/wp-content/uploads/2022/08/LinaPoint-64.jpg",
     features: [
       "Brand new construction",
       "Glass bottom floor throughout",
@@ -138,7 +138,7 @@ export const LISTINGS: Listing[] = [
     downPayment: 5000,
     netIncomeMin: 4500,
     netIncomeMax: 7500,
-    image: "/images/lot-new-build.jpg",
+    image: "https://linapoint.com/wp-content/uploads/2022/08/LinaPoint-41.jpg",
     features: [
       "Brand new construction",
       "Glass bottom floor throughout",

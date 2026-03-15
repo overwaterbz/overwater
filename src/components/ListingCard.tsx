@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Bed, Maximize2, DollarSign } from "lucide-react";
 import type { Listing } from "@/lib/data";
@@ -19,22 +20,23 @@ export function ListingCard({ listing, index }: Props) {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className="glass-card overflow-hidden group hover:border-lagoon/30 transition-colors"
     >
-      {/* Image placeholder */}
+      {/* Image */}
       <div className="relative h-56 bg-gradient-to-br from-ocean-mid to-ocean-surface overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-4xl mb-2">🏝️</p>
-            <p className="text-sm text-foreground/40">{listing.name}</p>
-          </div>
-        </div>
+        <Image
+          src={listing.image}
+          alt={listing.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-700"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
         {/* Badge */}
-        <div className="absolute top-4 left-4">
+        <div className="absolute top-4 left-4 z-10">
           <span className="rounded-full bg-maya/90 px-3 py-1 text-xs font-semibold text-ocean-deep">
             {listing.sharesAvailable} shares left
           </span>
         </div>
         {listing.type === "lot" && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 z-10">
             <span className="rounded-full bg-reef/90 px-3 py-1 text-xs font-semibold text-white">
               New Build
             </span>

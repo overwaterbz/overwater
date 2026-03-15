@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Sparkles, ChevronRight } from "lucide-react";
@@ -36,17 +37,32 @@ function getSoulPath(answers: Answers) {
 }
 
 export default function QuizPage() {
-  const [step, setStep] = useState(0); // 0 = intro, 1-6 = questions, 7 = results
+  const [step, setStep] = useState(0); // 0 = intro, 1-6 = questions, 7 = email gate, 8 = results
   const [answers, setAnswers] = useState<Answers>({});
+  const [email, setEmail] = useState("");
 
   const isIntro = step === 0;
-  const isResults = step === QUIZ_QUESTIONS.length + 1;
-  const currentQ = !isIntro && !isResults ? QUIZ_QUESTIONS[step - 1] : null;
+  const isEmailGate = step === QUIZ_QUESTIONS.length + 1;
+  const isResults = step === QUIZ_QUESTIONS.length + 2;
+  const currentQ = !isIntro && !isEmailGate && !isResults ? QUIZ_QUESTIONS[step - 1] : null;
 
   function selectAnswer(value: string) {
     if (!currentQ) return;
     setAnswers((prev) => ({ ...prev, [currentQ.id]: value }));
     setTimeout(() => setStep((s) => s + 1), 300);
+  }
+
+  function handleEmailSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // Save email to Supabase
+    if (email.trim()) {
+      const supabase = createBrowserSupabaseClient();
+      supabase.from("newsletter_subscribers").upsert(
+        { email: email.trim(), source: "overwater_quiz" },
+        { onConflict: "email" }
+      ).then(() => {}, () => {});
+    }
+    setStep((s) => s + 1);
   }
 
   const element = isResults ? ELEMENTS[tallyElement(answers)] : null;
@@ -83,14 +99,14 @@ export default function QuizPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between text-xs text-foreground/40 mb-2">
               <span>
-                {isResults ? "Your Blueprint" : `Question ${step} of ${QUIZ_QUESTIONS.length}`}
+                {isResults ? "Your Blueprint" : isEmailGate ? "Almost there!" : `Question ${step} of ${QUIZ_QUESTIONS.length}`}
               </span>
-              <span>{Math.round(((isResults ? QUIZ_QUESTIONS.length : step) / QUIZ_QUESTIONS.length) * 100)}%</span>
+              <span>{Math.round(((isResults ? QUIZ_QUESTIONS.length + 1 : isEmailGate ? QUIZ_QUESTIONS.length : step) / (QUIZ_QUESTIONS.length + 1)) * 100)}%</span>
             </div>
             <div className="h-1 rounded-full bg-glass">
               <motion.div
                 className="h-full rounded-full bg-maya"
-                animate={{ width: `${((isResults ? QUIZ_QUESTIONS.length : step) / QUIZ_QUESTIONS.length) * 100}%` }}
+                animate={{ width: `${((isResults ? QUIZ_QUESTIONS.length + 1 : isEmailGate ? QUIZ_QUESTIONS.length : step) / (QUIZ_QUESTIONS.length + 1)) * 100}%` }}
                 transition={{ duration: 0.4 }}
               />
             </div>
@@ -177,6 +193,47 @@ export default function QuizPage() {
             </motion.div>
           )}
 
+          {/* ═══════ EMAIL GATE ═══════ */}
+          {isEmailGate && (
+            <motion.div
+              key="email-gate"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="py-8 text-center"
+            >
+              <Sparkles className="h-10 w-10 text-maya mx-auto mb-4" />
+              <h2 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold mb-3">
+                Your Blueprint is Ready!
+              </h2>
+              <p className="text-foreground/60 mb-6 max-w-md mx-auto">
+                Enter your email to unlock your results and receive personalized insights about overwater living.
+              </p>
+              <form onSubmit={handleEmailSubmit} className="max-w-sm mx-auto space-y-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full rounded-full bg-glass border border-glass-border px-6 py-3.5 text-sm focus:outline-none focus:border-maya/50 placeholder:text-foreground/30 text-center"
+                />
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-maya px-8 py-3.5 text-sm font-semibold text-ocean-deep hover:bg-maya-warm transition-colors"
+                >
+                  Reveal My Results
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+              <button
+                onClick={() => setStep((s) => s + 1)}
+                className="mt-4 text-xs text-foreground/30 hover:text-foreground/50 transition-colors"
+              >
+                Skip for now
+              </button>
+            </motion.div>
+          )}
+
           {/* ═══════ RESULTS ═══════ */}
           {isResults && element && listing && soulPath && (
             <motion.div
@@ -216,8 +273,14 @@ export default function QuizPage() {
               <div className="glass-card p-6 mb-8">
                 <h3 className="font-semibold text-lagoon mb-4">Your Recommended Magic Share</h3>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="w-full sm:w-1/3 h-32 rounded-lg bg-gradient-to-br from-ocean-mid to-ocean-surface flex items-center justify-center">
-                    <span className="text-3xl">🏝️</span>
+                  <div className="w-full sm:w-1/3 h-32 rounded-lg overflow-hidden relative">
+                    <Image
+                      src={listing.image}
+                      alt={listing.name}
+                      fill
+                      className="object-cover"
+                      sizes="200px"
+                    />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-[family-name:var(--font-display)] text-lg font-semibold mb-2">
@@ -275,13 +338,54 @@ export default function QuizPage() {
                   Book at Lina Point Resort ↗
                 </a>
                 <a
-                  href={`https://magic-is-you.vercel.app/auth/signup?utm_source=overwater&utm_medium=quiz&utm_campaign=quiz_result&utm_content=${encodeURIComponent(element.name)}`}
+                  href={`https://magic.overwater.com/auth/signup?utm_source=overwater&utm_medium=quiz&utm_campaign=quiz_result&utm_content=${encodeURIComponent(element.name)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-purple-400/30 px-6 py-4 text-sm font-semibold text-purple-400 hover:bg-purple-400/10 transition-colors"
                 >
                   Discover Your Cosmic Blueprint ✦
                 </a>
+              </div>
+
+              {/* Share Your Results */}
+              <div className="mt-8">
+                <p className="text-sm text-foreground/40 text-center mb-3">Share your results</p>
+                <div className="flex items-center justify-center gap-3">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I'm a ${element.name} soul — ${element.tagline}! ✨ Take the Soulful Escape Quiz:`)}&url=${encodeURIComponent(`https://overwater.com/quiz`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-glass-border px-4 py-2 text-sm text-foreground/60 hover:border-lagoon/40 hover:text-lagoon transition-colors"
+                  >
+                    𝕏 Post
+                  </a>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`I'm a ${element.name} soul — ${element.tagline}! Take the Soulful Escape Quiz at overwater.com/quiz`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-glass-border px-4 py-2 text-sm text-foreground/60 hover:border-reef/40 hover:text-reef transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://overwater.com/quiz`)}&quote=${encodeURIComponent(`I'm a ${element.name} soul — ${element.tagline}!`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-glass-border px-4 py-2 text-sm text-foreground/60 hover:border-lagoon/40 hover:text-lagoon transition-colors"
+                  >
+                    Facebook
+                  </a>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `I'm a ${element.name} soul — ${element.tagline}! Take the Soulful Escape Quiz: https://overwater.com/quiz`
+                      );
+                    }}
+                    className="inline-flex items-center gap-2 rounded-full border border-glass-border px-4 py-2 text-sm text-foreground/60 hover:border-maya/40 hover:text-maya transition-colors"
+                  >
+                    🔗 Copy
+                  </button>
+                </div>
               </div>
 
               {/* Retake */}

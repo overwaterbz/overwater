@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Sparkles, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 interface Message {
@@ -16,6 +16,28 @@ const INITIAL_MESSAGE: Message = {
     "Welcome to Overwater! 🌊 I'm your AI Concierge. Ask me anything about fractional ownership, our cabanas, pricing, or the Soulful Escape Blueprint. How can I help you today?",
 };
 
+const QUICK_REPLIES = [
+  "How does fractional ownership work?",
+  "What's the monthly payment?",
+  "Tell me about the cabanas",
+  "What returns can I expect?",
+];
+
+function renderContent(text: string) {
+  // Convert URLs to links
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) =>
+    urlRegex.test(part) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-lagoon underline hover:text-maya transition-colors">
+        {part.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+      </a>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 export function AIConcierge() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
@@ -25,17 +47,17 @@ export function AIConcierge() {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, loading]);
 
-  async function sendMessage() {
-    const text = input.trim();
-    if (!text || loading) return;
+  async function sendMessage(text?: string) {
+    const msg = (text || input).trim();
+    if (!msg || loading) return;
 
-    const userMsg: Message = { role: "user", content: text };
+    const userMsg: Message = { role: "user", content: msg };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
-    trackEvent({ event: "concierge_message", properties: { length: text.length } });
+    trackEvent({ event: "concierge_message", properties: { length: msg.length } });
 
     try {
       const res = await fetch("/api/concierge", {
@@ -108,19 +130,36 @@ export function AIConcierge() {
                         : "bg-glass text-foreground/80"
                     }`}
                   >
-                    {msg.content}
+                    {msg.role === "assistant" ? renderContent(msg.content) : msg.content}
                   </div>
                 </div>
               ))}
               {loading && (
                 <div className="flex justify-start">
-                  <div className="bg-glass rounded-2xl px-4 py-2.5">
-                    <Loader2 className="h-4 w-4 animate-spin text-maya" />
+                  <div className="bg-glass rounded-2xl px-4 py-3 flex gap-1">
+                    <span className="w-2 h-2 rounded-full bg-maya animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-2 h-2 rounded-full bg-maya animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-2 h-2 rounded-full bg-maya animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
               )}
               <div ref={endRef} />
             </div>
+
+            {/* Quick Replies */}
+            {messages.length <= 2 && !loading && (
+              <div className="px-3 pb-2 flex flex-wrap gap-1.5">
+                {QUICK_REPLIES.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => sendMessage(q)}
+                    className="text-xs rounded-full border border-glass-border px-3 py-1.5 text-foreground/50 hover:border-maya/40 hover:text-maya transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Input */}
             <form

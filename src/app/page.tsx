@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -39,9 +40,17 @@ export default function HomePage() {
       <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
         <motion.div
           style={{ y: heroY }}
-          className="absolute inset-0 ocean-gradient"
+          className="absolute inset-0"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,165,233,0.15),transparent_70%)]" />
+          <Image
+            src="https://linapoint.com/wp-content/uploads/2022/08/drone-2-scaled.jpg"
+            alt="Aerial view of Lina Point Resort overwater cabanas in Belize"
+            fill
+            priority
+            className="object-cover scale-110 animate-[kenburns_25s_ease-in-out_infinite_alternate]"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/70 via-ocean-deep/40 to-ocean-deep" />
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </motion.div>
 
