@@ -36,7 +36,9 @@ LISTINGS:
 ${LISTINGS.map((l) => `- ${l.name}: ${l.bedrooms}BR, ${l.sqft}sqft, $${l.monthlyPayment}/mo per share, $${l.downPayment} down, $${l.netIncomeMin}-$${l.netIncomeMax}/yr rental income, ${l.sharesAvailable}/${l.totalShares} shares available`).join("\n")}
 
 ELEMENTS (for the Soulful Quiz):
-${Object.values(ELEMENTS).map((e) => `- ${e.name} (${e.tagline}): ${e.description}`).join("\n")}
+${Object.values(ELEMENTS)
+  .map((e) => `- ${e.name} (${e.tagline}): ${e.description}`)
+  .join("\n")}
 
 SOUL PATHS: Soulful Resident (second home user), Conscious Investor (passive income), Hybrid Creator (both)
 
@@ -45,15 +47,21 @@ Always end responses by suggesting next steps: take the quiz (/quiz), view listi
 ECOSYSTEM — Overwater.com connects to a broader ecosystem:
 - Lina Point Resort (https://linapoint.com) — the flagship property. Full booking, tours, dining, local experiences. Direct users there to book stays or explore Belize.
 - The Magic Is You (https://magic-is-you.vercel.app) — Maya Cosmic Blueprint platform. Guests who book at Lina Point get free Dreamweaver access to discover their cosmic identity (35+ elements from the Tzolkin calendar).
+- Kyla Point (https://kylapoint.com) — Soulful mainland living in Belize. Mixed-use community with homes, lots, and resort amenities. Sister property to Lina Point. Direct people interested in full-time living or buying property here.
+- Point Realtor (https://pointrealtor.com) — Licensed real estate brokerage managing all property sales across Lina Point, Kyla Point, and Overwater developments. Serving Belize and Florida. Direct purchase inquiries here.
 - Overwater.com's Soulful Quiz maps to Maya elements (Water, Fire, Wind, Earth) which link to the cosmic blueprint system.
-- If someone asks about spiritual/cosmic topics, mention The Magic Is You. If they want to book, direct to Lina Point.
+- If someone asks about spiritual/cosmic topics, mention The Magic Is You. If they want to book a stay, direct to Lina Point. If they want to buy property or a home, direct to Point Realtor or Kyla Point.
 
 Keep responses under 150 words. Be friendly but professional.`;
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (isRateLimited(ip)) {
-    return NextResponse.json({ reply: "Please slow down — try again in a moment." }, { status: 429 });
+    return NextResponse.json(
+      { reply: "Please slow down — try again in a moment." },
+      { status: 429 },
+    );
   }
 
   const { messages } = (await req.json()) as { messages: Message[] };
@@ -65,16 +73,39 @@ export async function POST(req: NextRequest) {
     const lastMsg = messages[messages.length - 1]?.content?.toLowerCase() || "";
     let reply = "";
 
-    if (lastMsg.includes("price") || lastMsg.includes("cost") || lastMsg.includes("payment") || lastMsg.includes("monthly")) {
-      reply = "Our Magic Shares start at just $458/month per share with 0% interest! The Cabana 4 Duplex (2BR, glass floors, plunge pool) is $625/mo with $6,250 down. Check out all options at /own or email Rick at rick@linapoint.com.";
-    } else if (lastMsg.includes("income") || lastMsg.includes("rental") || lastMsg.includes("roi") || lastMsg.includes("invest")) {
-      reply = "Each share generates real rental income: $1,600–$7,500/year depending on the listing and number of shares. Your cabana is professionally managed and rented year-round. View the calculator at /own to model your returns!";
-    } else if (lastMsg.includes("quiz") || lastMsg.includes("element") || lastMsg.includes("blueprint")) {
-      reply = "The Soulful Escape Quiz matches you with your element (Water, Fire, Wind, or Earth) and recommends a Soul Path + ideal cabana. It takes about 60 seconds — try it at /quiz!";
-    } else if (lastMsg.includes("belize") || lastMsg.includes("location") || lastMsg.includes("where")) {
-      reply = "Lina Point is located in San Pedro, on Ambergris Caye, Belize — consistently ranked the #1 island in the world. English-speaking, stable government, and the Belize Barrier Reef (UNESCO World Heritage Site) is literally your front yard!";
+    if (
+      lastMsg.includes("price") ||
+      lastMsg.includes("cost") ||
+      lastMsg.includes("payment") ||
+      lastMsg.includes("monthly")
+    ) {
+      reply =
+        "Our Magic Shares start at just $458/month per share with 0% interest! The Cabana 4 Duplex (2BR, glass floors, plunge pool) is $625/mo with $6,250 down. Check out all options at /own or email Rick at rick@linapoint.com.";
+    } else if (
+      lastMsg.includes("income") ||
+      lastMsg.includes("rental") ||
+      lastMsg.includes("roi") ||
+      lastMsg.includes("invest")
+    ) {
+      reply =
+        "Each share generates real rental income: $1,600–$7,500/year depending on the listing and number of shares. Your cabana is professionally managed and rented year-round. View the calculator at /own to model your returns!";
+    } else if (
+      lastMsg.includes("quiz") ||
+      lastMsg.includes("element") ||
+      lastMsg.includes("blueprint")
+    ) {
+      reply =
+        "The Soulful Escape Quiz matches you with your element (Water, Fire, Wind, or Earth) and recommends a Soul Path + ideal cabana. It takes about 60 seconds — try it at /quiz!";
+    } else if (
+      lastMsg.includes("belize") ||
+      lastMsg.includes("location") ||
+      lastMsg.includes("where")
+    ) {
+      reply =
+        "Lina Point is located in San Pedro, on Ambergris Caye, Belize — consistently ranked the #1 island in the world. English-speaking, stable government, and the Belize Barrier Reef (UNESCO World Heritage Site) is literally your front yard!";
     } else {
-      reply = "Great question! Overwater.com offers fractional ownership of luxury glass-floor overwater cabanas at Lina Point Resort in Belize. Starting at $458/mo with 0% interest. Take our 60-second Soulful Quiz at /quiz to find your perfect match, or view all listings at /own!";
+      reply =
+        "Great question! Overwater.com offers fractional ownership of luxury glass-floor overwater cabanas at Lina Point Resort in Belize. Starting at $458/mo with 0% interest. Take our 60-second Soulful Quiz at /quiz to find your perfect match, or view all listings at /own!";
     }
 
     return NextResponse.json({ reply });
@@ -102,18 +133,22 @@ export async function POST(req: NextRequest) {
       const text = await res.text();
       console.error("[concierge] Grok API error:", res.status, text);
       return NextResponse.json({
-        reply: "I'm having a moment — please try again or reach out to Rick directly at rick@linapoint.com!",
+        reply:
+          "I'm having a moment — please try again or reach out to Rick directly at rick@linapoint.com!",
       });
     }
 
     const data = await res.json();
-    const reply = data.choices?.[0]?.message?.content || "I'd love to help! Email rick@linapoint.com for a direct conversation.";
+    const reply =
+      data.choices?.[0]?.message?.content ||
+      "I'd love to help! Email rick@linapoint.com for a direct conversation.";
 
     return NextResponse.json({ reply });
   } catch (err) {
     console.error("[concierge] Error:", err);
     return NextResponse.json({
-      reply: "Connection issue — please try again or contact Rick at rick@linapoint.com or WhatsApp +501-610-6547.",
+      reply:
+        "Connection issue — please try again or contact Rick at rick@linapoint.com or WhatsApp +501-610-6547.",
     });
   }
 }
