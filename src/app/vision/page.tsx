@@ -131,6 +131,36 @@ export default function VisionPage() {
           </div>
         </FadeIn>
 
+        {/* Global Expansion */}
+        <FadeIn>
+          <div className="glass-card p-8 sm:p-12 mb-16 max-w-3xl mx-auto">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full bg-maya/10 flex items-center justify-center">
+                <Globe className="h-6 w-6 text-maya" />
+              </div>
+              <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold text-maya">
+                Expanding Beyond Belize
+              </h2>
+            </div>
+            <div className="space-y-4 text-foreground/70 leading-relaxed">
+              <p>
+                Lina Point is our flagship — but the Overwater brand is bigger than one resort.
+                We&apos;re scouting locations across the Caribbean, Central America, Southeast Asia,
+                and resort destinations worldwide for the next generation of overwater living.
+              </p>
+              <p>
+                Our vision includes <strong className="text-foreground">overwater-over-ocean</strong> builds
+                on pristine coastlines and <strong className="text-foreground">overwater-over-pool</strong> cabanas
+                at luxury inland resorts — bringing the glass-floor lifestyle to places you&apos;d never expect.
+              </p>
+              <p>
+                Same fractional model. Same 0% financing. Same &ldquo;Magic is You&rdquo; philosophy.
+                New horizons.
+              </p>
+            </div>
+          </div>
+        </FadeIn>
+
         {/* CTA */}
         <FadeIn>
           <div className="text-center">

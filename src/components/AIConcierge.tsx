@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Sparkles, Loader2 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface Message {
   role: "user" | "assistant";
@@ -34,6 +35,7 @@ export function AIConcierge() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
+    trackEvent({ event: "concierge_message", properties: { length: text.length } });
 
     try {
       const res = await fetch("/api/concierge", {

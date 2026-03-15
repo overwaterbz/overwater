@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Sparkles, ChevronRight } from "lucide-react";
 import { QUIZ_QUESTIONS, ELEMENTS, LISTINGS } from "@/lib/data";
+import { trackEvent } from "@/lib/analytics";
 
 type Answers = Record<string, string>;
 
@@ -50,6 +51,15 @@ export default function QuizPage() {
   const element = isResults ? ELEMENTS[tallyElement(answers)] : null;
   const listing = isResults ? getRecommendedListing(answers) : null;
   const soulPath = isResults ? getSoulPath(answers) : null;
+
+  useEffect(() => {
+    if (isResults && element && listing && soulPath) {
+      trackEvent({
+        event: "quiz_completed",
+        properties: { element: element.name, listing: listing.id, soulPath: soulPath.name },
+      });
+    }
+  }, [isResults, element, listing, soulPath]);
 
   return (
     <div className="min-h-screen pt-20 pb-16">

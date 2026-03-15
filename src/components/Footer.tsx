@@ -14,8 +14,11 @@ export function Footer() {
                 overwater<span className="text-maya">.com</span>
               </span>
             </Link>
-            <p className="text-sm text-foreground/50 leading-relaxed">
-              Fractional overwater cabana ownership at Lina Point Resort, San Pedro, Belize.
+            <p className="text-sm text-foreground/50 leading-relaxed mb-3">
+              Fractional overwater cabana ownership — starting with Lina Point Resort in Belize, expanding worldwide.
+            </p>
+            <p className="text-xs text-foreground/30 leading-relaxed">
+              Coming soon: new locations across the Caribbean, Central America, Southeast Asia &amp; beyond.
             </p>
           </div>
 
@@ -94,6 +97,13 @@ export function Footer() {
           </p>
           <p className="mt-2 text-xs text-foreground/30">
             © {new Date().getFullYear()} Overwater.com — Lina Point Resort, San Pedro, Belize. All rights reserved.
+          </p>
+          <p className="mt-3 text-[10px] text-foreground/20 max-w-2xl mx-auto leading-relaxed">
+            Fractional ownership is structured through Belize International Business Companies (IBC).
+            Shares represent real fractional deeds with legal transfer and inheritance rights.
+            This is not a timeshare. Projected rental income is estimated and not guaranteed.
+            Consult a qualified attorney before purchasing. Overwater.com is a marketing portal
+            and does not provide legal, tax, or investment advice.
           </p>
         </div>
       </div>

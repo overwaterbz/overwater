@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calculator, TrendingUp, Home, DollarSign } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import type { Listing } from "@/lib/data";
 
 interface Props {
@@ -38,7 +39,11 @@ export function ShareCalculator({ listing }: Props) {
           min={1}
           max={listing.sharesAvailable}
           value={shares}
-          onChange={(e) => setShares(Number(e.target.value))}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            setShares(val);
+            trackEvent({ event: "calculator_change", properties: { listing: listing.id, shares: val } });
+          }}
           className="w-full accent-maya h-2 rounded-full cursor-pointer"
         />
         <div className="flex justify-between text-xs text-foreground/40 mt-1">

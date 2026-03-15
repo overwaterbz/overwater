@@ -57,7 +57,7 @@ export default function HomePage() {
             >
               <span className="inline-flex items-center gap-2 rounded-full bg-maya/10 border border-maya/20 px-4 py-1.5 text-sm text-maya mb-6">
                 <Sparkles className="h-4 w-4" />
-                Lina Point Resort, San Pedro, Belize
+                Flagship: Lina Point Resort, Belize &middot; Expanding Worldwide
               </span>
             </motion.div>
 
@@ -234,7 +234,8 @@ export default function HomePage() {
               <p className="text-foreground/50 leading-relaxed mb-8">
                 Overwater living isn&apos;t about the glass floor or the reef below.
                 It&apos;s about waking up to a life that reflects who you really are.
-                Your element. Your path. Your sanctuary over the Caribbean Sea.
+                Your element. Your path. Your sanctuary — first over the Caribbean Sea,
+                and soon, over oceans and resort pools worldwide.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a

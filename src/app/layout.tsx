@@ -26,24 +26,26 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Overwater.com — Own Real Overwater Living in Belize",
+    default: "Overwater.com — Fractional Overwater Living Worldwide",
     template: "%s | Overwater.com",
   },
   description:
-    "Fractional ownership of luxury glass-floor overwater cabanas at Lina Point Resort, San Pedro, Belize. Not dirt lots — real overwater living for the same monthly payment.",
+    "Fractional ownership of luxury glass-floor overwater cabanas — starting with Lina Point Resort in Belize and expanding worldwide. Not dirt lots — real overwater living.",
   keywords: [
     "overwater cabana",
-    "Belize real estate",
     "fractional ownership",
+    "overwater living",
+    "Belize real estate",
     "San Pedro Belize",
     "Lina Point",
     "glass floor cabana",
-    "overwater living",
     "Caribbean investment",
+    "overwater resort",
+    "luxury fractional",
   ],
   openGraph: {
     title: "Overwater.com — Own the Magic",
-    description: "Tired of buying dirt you'll never use? Own real overwater living for the same monthly payment.",
+    description: "Fractional overwater living — starting in Belize, expanding worldwide. Glass-floor cabanas from $458/mo.",
     url: "https://overwater.com",
     siteName: "Overwater.com",
     locale: "en_US",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Overwater.com — Own the Magic",
-    description: "Fractional overwater cabana ownership in Belize starting at $458/mo",
+    description: "Fractional overwater cabana ownership starting at $458/mo — Belize flagship, expanding worldwide",
   },
 };
 
