@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
+import "@/lib/validateEnv";
 import dynamic from "next/dynamic";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -108,6 +109,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0a0a1a" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
