@@ -1,24 +1,57 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  testEnvironment: "jest-environment-jsdom",
-  testMatch: [
-    "<rootDir>/src/__tests__/**/*.test.ts",
-    "<rootDir>/src/__tests__/**/*.test.tsx",
+  projects: [
+    {
+      displayName: "api",
+      testEnvironment: "node",
+      testMatch: ["<rootDir>/src/__tests__/api/**/*.test.ts"],
+      moduleNameMapper: {
+        "^@/(.*)$": "<rootDir>/src/$1",
+      },
+      transform: {
+        "^.+\\.(ts|tsx)$": [
+          "ts-jest",
+          {
+            tsconfig: {
+              jsx: "react-jsx",
+              esModuleInterop: true,
+              module: "commonjs",
+              moduleResolution: "node",
+            },
+          },
+        ],
+      },
+      transformIgnorePatterns: ["/node_modules/"],
+    },
+    {
+      displayName: "lib",
+      testEnvironment: "jest-environment-jsdom",
+      setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+      testMatch: [
+        "<rootDir>/src/__tests__/lib/**/*.test.ts",
+        "<rootDir>/src/__tests__/components/**/*.test.tsx",
+      ],
+      moduleNameMapper: {
+        "^@/(.*)$": "<rootDir>/src/$1",
+        "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      },
+      transform: {
+        "^.+\\.(ts|tsx)$": [
+          "ts-jest",
+          {
+            tsconfig: {
+              jsx: "react-jsx",
+              esModuleInterop: true,
+              module: "commonjs",
+              moduleResolution: "node",
+            },
+          },
+        ],
+      },
+      transformIgnorePatterns: ["/node_modules/"],
+    },
   ],
-  moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1",
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-  },
-  transform: {
-    "^.+\\.(ts|tsx)$": [
-      "ts-jest",
-      { tsconfig: { jsx: "react-jsx", esModuleInterop: true, module: "commonjs", moduleResolution: "node" } },
-    ],
-  },
-  transformIgnorePatterns: ["/node_modules/"],
-  testTimeout: 10000,
 };
 
 export default config;

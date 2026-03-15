@@ -4,13 +4,24 @@ import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import "@/lib/validateEnv";
 import dynamic from "next/dynamic";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { UtmCapture } from "@/components/UtmCapture";
 
-const AIConcierge = dynamic(() => import("@/components/AIConcierge").then(m => m.AIConcierge), { ssr: false });
-const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton").then(m => m.WhatsAppButton), { ssr: false });
-const ExitIntentPopup = dynamic(() => import("@/components/ExitIntentPopup").then(m => m.ExitIntentPopup), { ssr: false });
+const AIConcierge = dynamic(
+  () => import("@/components/AIConcierge").then((m) => m.AIConcierge),
+  { ssr: false },
+);
+const WhatsAppButton = dynamic(
+  () => import("@/components/WhatsAppButton").then((m) => m.WhatsAppButton),
+  { ssr: false },
+);
+const ExitIntentPopup = dynamic(
+  () => import("@/components/ExitIntentPopup").then((m) => m.ExitIntentPopup),
+  { ssr: false },
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +61,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Overwater.com — Own the Magic",
-    description: "Fractional overwater living — starting in Belize, expanding worldwide. Glass-floor cabanas from $458/mo.",
+    description:
+      "Fractional overwater living — starting in Belize, expanding worldwide. Glass-floor cabanas from $458/mo.",
     url: "https://overwater.com",
     siteName: "Overwater.com",
     locale: "en_US",
@@ -67,7 +79,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Overwater.com — Own the Magic",
-    description: "Fractional overwater cabana ownership starting at $458/mo — Belize flagship, expanding worldwide",
+    description:
+      "Fractional overwater cabana ownership starting at $458/mo — Belize flagship, expanding worldwide",
     images: ["https://overwater.com/api/og"],
   },
 };
@@ -120,16 +133,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-[#c9a55a] focus:text-[#0a0a1a] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-[#c9a55a]">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-[#c9a55a] focus:text-[#0a0a1a] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-[#c9a55a]"
+        >
           Skip to main content
         </a>
         <Header />
         <UtmCapture />
-        <main id="main-content" className="min-h-screen">{children}</main>
+        <main id="main-content" className="min-h-screen">
+          {children}
+        </main>
         <Footer />
         <AIConcierge />
         <WhatsAppButton />
         <ExitIntentPopup />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

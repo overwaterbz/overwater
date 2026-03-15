@@ -32,29 +32,45 @@ describe("POST /api/contact", () => {
   });
 
   it("returns 400 when name is missing", async () => {
-    const res = await POST(makeRequest({ email: "a@b.com", message: "hi" }));
+    const res = await POST(
+      makeRequest({ email: "a@b.com", message: "hi" }, "10.1.0.1"),
+    );
     expect(res.status).toBe(400);
   });
 
   it("returns 400 when email is missing", async () => {
-    const res = await POST(makeRequest({ name: "Rick", message: "hi" }));
+    const res = await POST(
+      makeRequest({ name: "Rick", message: "hi" }, "10.1.0.2"),
+    );
     expect(res.status).toBe(400);
   });
 
   it("returns 400 when message is missing", async () => {
-    const res = await POST(makeRequest({ name: "Rick", email: "a@b.com" }));
+    const res = await POST(
+      makeRequest({ name: "Rick", email: "a@b.com" }, "10.1.0.3"),
+    );
     expect(res.status).toBe(400);
   });
 
   it("returns 400 for invalid email format", async () => {
-    const res = await POST(makeRequest({ name: "Rick", email: "notanemail", message: "hi" }));
+    const res = await POST(
+      makeRequest(
+        { name: "Rick", email: "notanemail", message: "hi" },
+        "10.1.0.4",
+      ),
+    );
     expect(res.status).toBe(400);
   });
 
   it("inserts valid submission and returns ok", async () => {
     const res = await POST(
       makeRequest(
-        { name: "Rick", email: "rick@linapoint.com", topic: "Fractional Ownership", message: "Interested!" },
+        {
+          name: "Rick",
+          email: "rick@linapoint.com",
+          topic: "Fractional Ownership",
+          message: "Interested!",
+        },
         "10.0.0.1",
       ),
     );
@@ -75,7 +91,10 @@ describe("POST /api/contact", () => {
   it("truncates very long fields", async () => {
     const longMsg = "x".repeat(10000);
     const res = await POST(
-      makeRequest({ name: "Rick", email: "a@b.com", message: longMsg }, "10.0.0.2"),
+      makeRequest(
+        { name: "Rick", email: "a@b.com", message: longMsg },
+        "10.0.0.2",
+      ),
     );
     expect(res.status).toBe(200);
     const call = mockInsert.mock.calls[0][0];
@@ -85,7 +104,10 @@ describe("POST /api/contact", () => {
   it("returns 500 when Supabase insert fails", async () => {
     mockInsert.mockResolvedValueOnce({ error: { message: "DB error" } });
     const res = await POST(
-      makeRequest({ name: "Rick", email: "a@b.com", message: "hi" }, "10.0.0.3"),
+      makeRequest(
+        { name: "Rick", email: "a@b.com", message: "hi" },
+        "10.0.0.3",
+      ),
     );
     expect(res.status).toBe(500);
   });
