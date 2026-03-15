@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Sparkles, ChevronRight } from "lucide-react";
 import { QUIZ_QUESTIONS, ELEMENTS, LISTINGS } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
 
 type Answers = Record<string, string>;
 
@@ -58,8 +59,20 @@ export default function QuizPage() {
         event: "quiz_completed",
         properties: { element: element.name, listing: listing.id, soulPath: soulPath.name },
       });
+      // Persist quiz results to Supabase
+      const supabase = createBrowserSupabaseClient();
+      supabase.auth.getUser().then(({ data }) => {
+        supabase.from("overwater_quiz_results").insert({
+          user_id: data.user?.id ?? null,
+          session_id: sessionStorage.getItem("ow_session_id") ?? null,
+          element: element.name,
+          soul_path: soulPath.name,
+          recommended_listing: listing.id,
+          answers,
+        }).then(() => {}, () => {});
+      });
     }
-  }, [isResults, element, listing, soulPath]);
+  }, [isResults, element, listing, soulPath]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-screen pt-20 pb-16">
@@ -248,6 +261,26 @@ export default function QuizPage() {
                   className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-lagoon/30 px-6 py-4 text-sm font-semibold text-lagoon hover:bg-lagoon/10 transition-colors"
                 >
                   Book a Call with Rick
+                </a>
+              </div>
+
+              {/* Ecosystem CTAs */}
+              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                <a
+                  href={`https://linapoint.com/booking?utm_source=overwater&utm_medium=quiz&utm_campaign=quiz_result&utm_content=${encodeURIComponent(element.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-reef/30 px-6 py-4 text-sm font-semibold text-reef hover:bg-reef/10 transition-colors"
+                >
+                  Book at Lina Point Resort ↗
+                </a>
+                <a
+                  href={`https://magic-is-you.vercel.app/auth/signup?utm_source=overwater&utm_medium=quiz&utm_campaign=quiz_result&utm_content=${encodeURIComponent(element.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-purple-400/30 px-6 py-4 text-sm font-semibold text-purple-400 hover:bg-purple-400/10 transition-colors"
+                >
+                  Discover Your Cosmic Blueprint ✦
                 </a>
               </div>
 

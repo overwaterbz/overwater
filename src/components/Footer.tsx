@@ -49,8 +49,8 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-maya mb-4">Ecosystem</h4>
             <ul className="space-y-2">
               {[
-                { href: "https://lina-point.vercel.app", label: "Lina Point Resort" },
-                { href: "https://magic-is-you.vercel.app", label: "Magic Is You" },
+                { href: "https://linapoint.com?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem", label: "Lina Point Resort" },
+                { href: "https://magic-is-you.vercel.app?utm_source=overwater&utm_medium=footer&utm_campaign=ecosystem", label: "Magic Is You" },
               ].map((link) => (
                 <li key={link.href}>
                   <a

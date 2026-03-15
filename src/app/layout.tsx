@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AIConcierge } from "@/components/AIConcierge";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { UtmCapture } from "@/components/UtmCapture";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,6 +70,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
         <Header />
+        <UtmCapture />
         <main className="min-h-screen">{children}</main>
         <Footer />
         <AIConcierge />

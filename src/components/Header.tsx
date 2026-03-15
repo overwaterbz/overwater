@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Waves } from "lucide-react";
+import { Menu, X, Waves, User, LogOut } from "lucide-react";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -15,6 +16,22 @@ const NAV_LINKS = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<{ email?: string } | null>(null);
+
+  useEffect(() => {
+    const supabase = createBrowserSupabaseClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function handleSignOut() {
+    const supabase = createBrowserSupabaseClient();
+    await supabase.auth.signOut();
+    setUser(null);
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-glass-border backdrop-blur-xl">
@@ -45,6 +62,18 @@ export function Header() {
             >
               Take the Quiz
             </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-foreground/40 truncate max-w-[120px]">{user.email}</span>
+                <button onClick={handleSignOut} className="text-foreground/50 hover:text-lagoon transition-colors" aria-label="Sign out">
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <Link href="/auth/login" className="flex items-center gap-1 text-sm text-foreground/60 hover:text-lagoon transition-colors">
+                <User className="h-4 w-4" /> Sign In
+              </Link>
+            )}
           </nav>
 
           {/* Mobile toggle */}
@@ -85,6 +114,15 @@ export function Header() {
               >
                 Take the Soulful Quiz
               </Link>
+              {user ? (
+                <button onClick={() => { handleSignOut(); setOpen(false); }} className="mt-2 flex items-center gap-2 px-4 py-3 text-sm text-foreground/50 hover:text-lagoon transition-colors">
+                  <LogOut className="h-4 w-4" /> Sign Out
+                </button>
+              ) : (
+                <Link href="/auth/login" onClick={() => setOpen(false)} className="mt-2 flex items-center gap-2 px-4 py-3 text-sm text-foreground/60 hover:text-lagoon transition-colors">
+                  <User className="h-4 w-4" /> Sign In
+                </Link>
+              )}
             </nav>
           </motion.div>
         )}

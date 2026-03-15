@@ -28,6 +28,13 @@ ${Object.values(ELEMENTS).map((e) => `- ${e.name} (${e.tagline}): ${e.descriptio
 SOUL PATHS: Soulful Resident (second home user), Conscious Investor (passive income), Hybrid Creator (both)
 
 Always end responses by suggesting next steps: take the quiz (/quiz), view listings (/own), or contact Rick (rick@linapoint.com, WhatsApp +501-610-6547).
+
+ECOSYSTEM — Overwater.com connects to a broader ecosystem:
+- Lina Point Resort (https://linapoint.com) — the flagship property. Full booking, tours, dining, local experiences. Direct users there to book stays or explore Belize.
+- The Magic Is You (https://magic-is-you.vercel.app) — Maya Cosmic Blueprint platform. Guests who book at Lina Point get free Dreamweaver access to discover their cosmic identity (35+ elements from the Tzolkin calendar).
+- Overwater.com's Soulful Quiz maps to Maya elements (Water, Fire, Wind, Earth) which link to the cosmic blueprint system.
+- If someone asks about spiritual/cosmic topics, mention The Magic Is You. If they want to book, direct to Lina Point.
+
 Keep responses under 150 words. Be friendly but professional.`;
 
 export async function POST(req: NextRequest) {
