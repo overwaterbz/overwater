@@ -5,6 +5,7 @@ import "./globals.css";
 import "@/lib/validateEnv";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { UtmCapture } from "@/components/UtmCapture";
@@ -135,6 +136,7 @@ export default function RootLayout({
         <ClientProviders />
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics />
       </body>
     </html>
   );
