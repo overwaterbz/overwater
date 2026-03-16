@@ -332,7 +332,7 @@ export default function HomePage() {
 
             <FadeIn delay={0.2}>
               <a
-                href="https://magic-is-you.vercel.app?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                href="https://magic.overwater.com?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"
@@ -355,7 +355,7 @@ export default function HomePage() {
 
             <FadeIn delay={0.3}>
               <a
-                href="https://lina-point.vercel.app?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
+                href="https://linapoint.com?utm_source=overwater&utm_medium=portal&utm_campaign=ecosystem"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="glass-card-elevated maya-border p-6 text-center group block hover:scale-[1.02] transition-transform"

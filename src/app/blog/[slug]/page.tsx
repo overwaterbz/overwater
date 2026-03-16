@@ -11,7 +11,7 @@ import Image from "next/image";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 export const revalidate = 3600;
@@ -43,7 +43,11 @@ interface BlogPost {
   published_at: string;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const { data: post } = await supabase
     .from("blog_posts")
@@ -61,7 +65,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const { data: post } = await supabase
     .from("blog_posts")
@@ -91,18 +99,32 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {p.category}
             {p.published_at && (
               <span className="text-[#5a5a6a] ml-2">
-                · {new Date(p.published_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                ·{" "}
+                {new Date(p.published_at).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </span>
             )}
           </p>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#e8e0d0] leading-tight">{p.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#e8e0d0] leading-tight">
+            {p.title}
+          </h1>
           <p className="text-[#8a7a6a] mt-3">By {p.author}</p>
         </header>
 
         {/* Cover Image */}
         {p.cover_image && (
           <div className="aspect-video rounded-xl overflow-hidden mb-10 relative">
-            <Image src={p.cover_image} alt={p.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 768px" priority />
+            <Image
+              src={p.cover_image}
+              alt={p.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 768px"
+              priority
+            />
           </div>
         )}
 
@@ -121,7 +143,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {p.tags?.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-10 pt-6 border-t border-[#c9a55a1a]">
             {p.tags.map((tag) => (
-              <span key={tag} className="text-xs bg-[#c9a55a1a] text-[#c9a55a] px-3 py-1 rounded-full">
+              <span
+                key={tag}
+                className="text-xs bg-[#c9a55a1a] text-[#c9a55a] px-3 py-1 rounded-full"
+              >
                 {tag}
               </span>
             ))}
@@ -130,8 +155,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {/* Ecosystem CTA */}
         <div className="mt-12 bg-[#1a1a2e] border border-[#c9a55a33] rounded-xl p-8 text-center">
-          <h2 className="text-xl font-bold text-[#c9a55a] mb-3">Continue Your Journey</h2>
-          <p className="text-[#8a7a6a] mb-6">Discover your element and find your place overwater.</p>
+          <h2 className="text-xl font-bold text-[#c9a55a] mb-3">
+            Continue Your Journey
+          </h2>
+          <p className="text-[#8a7a6a] mb-6">
+            Discover your element and find your place overwater.
+          </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               href="/quiz"
@@ -140,7 +169,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Element Quiz
             </Link>
             <Link
-              href="https://magic-is-you.vercel.app?utm_source=overwater&utm_medium=blog&utm_campaign=ecosystem"
+              href="https://magic.overwater.com?utm_source=overwater&utm_medium=blog&utm_campaign=ecosystem"
               className="px-5 py-2.5 border border-[#c9a55a44] text-[#c9a55a] rounded-lg font-semibold hover:bg-[#c9a55a11] transition text-sm"
               target="_blank"
               rel="noopener noreferrer"
