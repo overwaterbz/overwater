@@ -8,7 +8,7 @@ const config: Config = {
     "!src/**/*.d.ts",
   ],
   coverageThreshold: {
-    global: { branches: 25, functions: 25, lines: 35, statements: 35 },
+    global: { branches: 35, functions: 30, lines: 45, statements: 45 },
   },
   projects: [
     {

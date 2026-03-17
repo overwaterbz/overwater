@@ -35,3 +35,9 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: placeholder
           GROK_API_KEY: placeholder
           MARKETING_API_KEY: placeholder
+
+      - name: Lighthouse CI
+        run: |
+          npm i -g @lhci/cli@0.14.x
+          lhci autorun --collect.staticDistDir=.next --collect.url=http://localhost:3000 || true
+        continue-on-error: true
