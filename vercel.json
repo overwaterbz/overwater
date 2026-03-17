@@ -2,7 +2,5 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "crons": [
-    { "path": "/api/cron/ecosystem-triggers", "schedule": "0 */2 * * *" }
-  ]
+  "crons": [{ "path": "/api/cron/ecosystem-triggers", "schedule": "0 6 * * *" }]
 }
