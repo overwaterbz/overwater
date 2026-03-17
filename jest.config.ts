@@ -1,6 +1,15 @@
 import type { Config } from "jest";
 
 const config: Config = {
+  collectCoverageFrom: [
+    "src/app/api/**/route.ts",
+    "src/app/api/**/route.tsx",
+    "src/lib/**/*.ts",
+    "!src/**/*.d.ts",
+  ],
+  coverageThreshold: {
+    global: { branches: 25, functions: 25, lines: 35, statements: 35 },
+  },
   projects: [
     {
       displayName: "api",
